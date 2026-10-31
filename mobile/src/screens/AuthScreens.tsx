@@ -1,0 +1,10 @@
+import { useState } from 'react';
+import { Alert, Text, TextInput, View } from 'react-native';
+import { useNavigation } from '@react-navigation/native';
+import { apiRequest, login } from '../../api';
+import { Button } from '../components/Button';
+import { Page } from '../components/Page';
+import { styles } from '../theme';
+
+export function LoginScreen() { const n = useNavigation<any>(); const [username, setUsername] = useState(''); const [password, setPassword] = useState(''); const [error, setError] = useState(''); const submit = async () => { try { await login(username, password); n.navigate('Settings'); } catch (e: any) { setError(e.message); } }; return <Page nav={false}><View style={styles.auth}><Text style={styles.authLogo}>🌾</Text><Text style={styles.title}>เข้าสู่ระบบ</Text><TextInput style={styles.field} placeholder="ชื่อผู้ใช้" value={username} onChangeText={setUsername} autoCapitalize="none" /><TextInput style={styles.field} placeholder="รหัสผ่าน" value={password} onChangeText={setPassword} secureTextEntry /><Button title="เข้าสู่ระบบ" onPress={submit} />{error ? <Text style={styles.error}>{error}</Text> : null}<Button title="สมัครสมาชิก" secondary onPress={() => n.navigate('Register')} /></View></Page>; }
+export function RegisterScreen() { const n = useNavigation<any>(); const [form, setForm] = useState({ username: '', email: '', password: '', full_name: '' }); const [error, setError] = useState(''); const submit = async () => { try { await apiRequest('/auth/register', { method: 'POST', body: JSON.stringify(form) }); Alert.alert('สำเร็จ', 'สมัครสมาชิกสำเร็จ'); n.navigate('Login'); } catch (e: any) { setError(e.message); } }; return <Page nav={false}><Text style={styles.title}>สมัครสมาชิก</Text>{[['full_name', 'ชื่อ-นามสกุล'], ['username', 'ชื่อผู้ใช้'], ['email', 'อีเมล'], ['password', 'รหัสผ่าน']].map(([key, label]) => <TextInput key={key} style={styles.field} placeholder={label} secureTextEntry={key === 'password'} value={(form as any)[key]} onChangeText={(v) => setForm({ ...form, [key]: v })} />)}<Button title="สมัครสมาชิก" onPress={submit} />{error ? <Text style={styles.error}>{error}</Text> : null}</Page>; }

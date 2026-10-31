@@ -1,0 +1,13 @@
+# NOTE: this server has no outbound internet access, so `pip install` cannot fetch
+# anything not already present in the course's fastapi-venv. Everything below is
+# already pre-installed there - this file is just documentation, nothing to run.
+# SQL Server driver: needs "ODBC Driver 17 for SQL Server" installed on the machine.
+fastapi==0.111.0
+uvicorn==0.30.1
+pydantic==2.7.4
+pydantic-settings==2.3.4
+python-dotenv==1.0.1
+python-multipart==0.0.9
+pyodbc>=5.0
+bcrypt==5.0.0
+python-jose==3.5.0

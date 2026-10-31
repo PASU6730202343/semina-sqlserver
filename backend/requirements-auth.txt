@@ -1,0 +1,6 @@
+bcrypt==5.0.0
+ecdsa==0.19.2
+pyasn1==0.6.4
+python-jose==3.5.0
+rsa==4.9.1
+six==1.17.0
